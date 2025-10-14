@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+
+# Modèles & données (trop lourds pour Git)
+*.pkl
+*.h5
+*.joblib
+services/*/models/
+services/*/data/
+geo/tiles_poc/data/
+
+# MLflow (logs locaux, sera régénéré)
+mlruns/
+
+# OS
+.DS_Store
+.vscode/
+.idea/
+
+# NE PAS EXCLURE : docs/screenshots/ (preuve visuelle = portfolio)
+

@@ -1,0 +1,33 @@
+name: mlops
+channels:
+  - conda-forge
+dependencies:
+  - python=3.10
+  # Core ML stack
+  - numpy
+  - pandas
+  - scikit-learn
+  - mlflow
+  # API
+  - fastapi
+  - uvicorn
+  # Geo / GIS (ARM64-ready via conda-forge)
+  - gdal
+  - rasterio
+  - rioxarray
+  - shapely
+  - pyproj
+  - geopandas
+  # Dev & tests
+  - pip
+  - pytest
+  - requests
+  - joblib
+  - pip:
+      # Monitoring / Qualité
+      - evidently==0.4.33
+      - great_expectations==1.0.3
+      # STAC client (optionnel)
+      - pystac-client==0.7.5
+      # TiTiler (tiles en Python natif)
+      - titiler==0.14.2
