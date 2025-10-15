@@ -26,7 +26,12 @@ Captures :
  Screenshot /docs
  Screenshot terminal make smoke
 
-Prochain pas : S2 → Git/GitHub (init repo, .gitignore, premier commit)
+## Session du 14 octobre 2025 - S2
+- Repo Git initialisé ✅
+- .gitignore configuré (résolution problème EOF) ✅
+- Premier commit + push GitHub ✅
+- URL publique : https://github.com/lpenric/mlops-env-utile ✅
+- 5 artefacts S2 générés (Anki, Quiz, Contexte, Compréhension, Portfolio) ✅
+- Prochain pas : S3 (tests pytest + validation Pydantic)
 
-Historique
-À compléter au fur et à mesure...
+

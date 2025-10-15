@@ -1,0 +1,52 @@
+Front,Back,Tags
+"Commande pour initialiser un repo Git local","```bash
+git init
+git branch -M main
+```
+Crée le dossier caché `.git/` et renomme la branche par défaut en `main`.","S2::commandes"
+"Commande pour voir les fichiers non versionnés","```bash
+git status
+```
+Affiche les fichiers modifiés (rouge = non staged, vert = staged pour commit).","S2::commandes"
+"Commande pour ajouter TOUS les fichiers au prochain commit","```bash
+git add .
+```
+Stage tous les fichiers du dossier actuel (respecte `.gitignore`).","S2::commandes"
+"Commande pour créer un snapshot versionné","```bash
+git commit -m ""Message descriptif""
+```
+Crée un commit avec un message. Convention : verbe présent (""fix:"", ""feat:"", ""docs:"").","S2::commandes"
+"Commande pour lier le repo local à GitHub","```bash
+git remote add origin https://github.com/username/repo.git
+git push -u origin main
+```
+`-u` = set upstream (les prochains `git push` iront automatiquement vers `origin main`).","S2::commandes"
+"Commande pour lister TOUS les fichiers versionnés par Git","```bash
+git ls-files
+```
+Utile pour vérifier qu'aucun `.pkl` ou fichier lourd n'a été versionné par erreur.","S2::commandes"
+"Commande pour retirer un fichier du versioning SANS le supprimer localement","```bash
+git rm --cached chemin/vers/fichier.pkl
+```
+Critique si tu as versionné un modèle par erreur. Suivi d'un commit + push.","S2::commandes S2::debugging"
+"Rôle du fichier `.gitignore`","Exclut des fichiers/dossiers du versioning Git (ex: `*.pkl`, `__pycache__/`, `mlruns/`).
+**Impact** : protège le repo de fichiers lourds (>50 Mo = problème GitHub).
+**Syntaxe** : 1 pattern par ligne, `*` = wildcard, `nom/` = dossier.","S2::concepts"
+"Pourquoi ne JAMAIS versionner les fichiers `.pkl` ?","1. Taille (10-500 Mo) → repo lourd → clone lent
+2. GitHub limite : 1 GB/repo, fichier >100 Mo bloqué
+3. Modèles = artefacts générés (`make train`), pas du code source
+4. `.pkl` change à chaque entraînement → historique Git inutile.","S2::concepts"
+"Erreur `fatal: remote origin already exists`","**Cause** : Tu as déjà tenté `git remote add origin`.
+**Solution** :
+```bash
+git remote remove origin
+git remote add origin <URL>
+```
+Ou vérifier l'URL existante : `git remote -v`","S2::debugging Mac_M1"
+"Différence entre `git add` et `git commit`","`git add` = stage les fichiers (préparation)
+`git commit` = crée le snapshot versionné
+**Analogie** : `add` = mettre des objets dans un carton, `commit` = sceller le carton avec une étiquette de date.","S2::concepts"
+"Commande pour voir l'historique des commits","```bash
+git log --oneline
+```
+Affiche 1 ligne par commit (hash court + message). Pratique pour vérifier qu'un commit a bien été créé.","S2::commandes"

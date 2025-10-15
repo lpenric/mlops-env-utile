@@ -22,3 +22,5 @@ mlruns/
 
 # NE PAS EXCLURE : docs/screenshots/ (preuve visuelle = portfolio)
 
+# Notes personnelles (journal de bord)
+docs/contexte_s*.md
