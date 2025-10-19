@@ -56,7 +56,7 @@ curl -X POST http://localhost:8000/predict \
 - [x] Environnement conda configuré
 - [x] **S1 — Mini-labo "Hello MLOps"** ✅
 - [x] S2 — Git/GitHub
-- [ ] S3 — Tests fumigènes (pytest)
+- [x] S3 — Tests fumigènes (pytest)
 - [ ] S4 — MLflow Tracking
 
 Voir `PLAN_MAITRE.md` pour la roadmap complète.
