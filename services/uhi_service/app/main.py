@@ -1,49 +1,46 @@
-"""
-API FastAPI pour prédire le score UHI.
-"""
 from fastapi import FastAPI
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 import joblib
-import os
+import numpy as np
+from pathlib import Path
 
-app = FastAPI(title="UHI Prediction API", version="1.0")
+app = FastAPI(title="UHI Service API", version="1.0.0")
 
-# Charger le modèle au démarrage
-MODEL_PATH = "services/uhi_service/models/uhi_model_v1.pkl"
-model = None
-
-@app.on_event("startup")
-def load_model():
-    global model
-    if os.path.exists(MODEL_PATH):
-        model = joblib.load(MODEL_PATH)
-        print(f"✅ Modèle chargé depuis {MODEL_PATH}")
-    else:
-        print(f"⚠️  Modèle introuvable : {MODEL_PATH}")
+# Chargement du modèle
+MODEL_PATH = Path(__file__).parent.parent / "models" / "uhi_model_v1.pkl"
+model = joblib.load(MODEL_PATH)
 
 class UHIInput(BaseModel):
-    ndvi: float
-    building_density: float
-    water_distance: float
+    """Schéma d'entrée pour prédiction UHI avec validations strictes"""
+    ndvi: float = Field(..., ge=-1.0, le=1.0, description="NDVI (Normalized Difference Vegetation Index)")
+    building_density: float = Field(..., ge=0.0, le=1.0, description="Densité bâtie [0-1]")
+    water_distance: float = Field(..., ge=0.0, description="Distance à l'eau en mètres")
 
 class UHIOutput(BaseModel):
-    uhi_score: float
+    """Schéma de sortie pour prédiction UHI"""
+    uhi_score: float = Field(..., description="Score UHI prédit [0-100]")
 
 @app.get("/")
 def root():
-    return {"message": "UHI Prediction API", "status": "running"}
+    return {"message": "UHI Service API — Prédiction Îlots de Chaleur Urbains"}
 
 @app.get("/healthz")
-def health():
-    return {"status": "ok", "model_loaded": model is not None}
+def healthz():
+    return {"status": "healthy", "service": "uhi_service", "version": "1.0.0"}
 
 @app.post("/predict", response_model=UHIOutput)
 def predict(input_data: UHIInput):
-    if model is None:
-        return {"error": "Model not loaded"}
+    """
+    Prédire le score UHI à partir des features
+    """
+    # Conversion en array numpy
+    features = np.array([[
+        input_data.ndvi,
+        input_data.building_density,
+        input_data.water_distance
+    ]])
     
     # Prédiction
-    features = [[input_data.ndvi, input_data.building_density, input_data.water_distance]]
     prediction = model.predict(features)[0]
     
-    return {"uhi_score": round(prediction, 2)}
+    return {"uhi_score": float(prediction)}
