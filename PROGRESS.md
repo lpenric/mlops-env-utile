@@ -63,3 +63,31 @@ git push -u origin main
 - Vérification absence `contexte_s*.md` sur GitHub
 
 **Prochain pas** : S3 (tests pytest + validation Pydantic stricte)
+
+---
+
+## Session du 19 octobre 2025 
+
+### ✅ S3 - Test fumigène (pytest) & schéma Pydantic (VALIDÉE)
+
+**Actions réalisées** :
+- Création tests/test_smoke.py (3 tests)
+- Validation Pydantic stricte (Field ge/le)
+- Tests pytest : 3 passed in 0.11s
+- Alias `mlops` créé
+
+**Résultat** :
+- ✅ 3 passed in 0.11s → API testée automatiquement.
+
+**Apprentissages clés** :
+- pytest découvre test_*.py automatiquement
+- Pydantic Field(ge=, le=) = validation auto
+- lsof -ti:8000 | xargs kill -9 = tuer processus
+- Git : chemins relatifs vs absolus
+- git reflog = récupérer commits "perdus"
+
+**Obstacles résolus** :
+- Rebase accidentel → git rebase --abort + git reset --hard
+- Commit incomplet → git commit --amend
+
+**Prochaine pas** : S4 (MLflow **Tracking**)
