@@ -1,0 +1,13 @@
+Front,Back,Tags
+"Commande pour lancer tous les tests pytest en mode quiet","pytest -q (affiche 1 ligne par test, ex: ""3 passed in 0.11s"")",[S3]::commandes
+"Commande pour lancer les tests d'un fichier spécifique en mode verbose","pytest -v tests/test_smoke.py (affiche détails de chaque test)",[S3]::commandes
+"Comment pytest découvre-t-il automatiquement les tests ?","Cherche tous les fichiers test_*.py ou *_test.py, puis exécute toutes les fonctions test_*(). Aucune configuration nécessaire.",[S3]::concepts
+"Rôle du décorateur @pytest.fixture","Crée une fonction de setup réutilisable entre tests. Exemple : @pytest.fixture def api_url() permet d'injecter l'URL dans tous les tests automatiquement.",[S3]::concepts
+"Syntaxe Pydantic pour valider qu'un float est entre -1 et 1","Field(..., ge=-1.0, le=1.0) où ge=greater or equal, le=less or equal",[S3]::commandes
+"Code HTTP retourné par FastAPI quand Pydantic rejette un input invalide","422 Unprocessable Entity (validation automatique, pas besoin de if/else dans le code)",[S3]::concepts
+"Commande pour tuer un processus occupant le port 8000","lsof -ti:8000 | xargs kill -9 (attention au deux-points : pas slash /)",[S3]::commandes Mac_M1
+"Erreur ""No rule to make target serve"" - Cause et solution","Cause : commande make lancée hors du dossier projet (Makefile absent). Solution : cd ~/mlops_env_utile avant toute commande make.",[S3]::debugging
+"Commande Git pour récupérer un commit ""perdu"" après rebase/reset","git reflog -10 (affiche historique complet des mouvements, même commits détachés), puis git reset --hard <hash>",[S3]::commandes
+"Différence entre git add /docs/ et git add docs/","Avec / initial = chemin absolu (racine disque), échoue. Sans / = chemin relatif (depuis dossier courant), fonctionne. En Git, toujours utiliser chemins relatifs.",[S3]::debugging
+"Commande pour ajouter des fichiers à un commit existant sans créer nouveau commit","git add <fichiers> && git commit --amend --no-edit (modifier dernier commit)",[S3]::commandes
+"Pourquoi git push --force après git commit --amend ?","Parce que --amend modifie l'historique Git. Le push force écrase la version distante avec la version locale modifiée. Attention : destructif si d'autres ont pull avant.",[S3]::concepts
