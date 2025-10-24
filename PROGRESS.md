@@ -91,3 +91,37 @@ git push -u origin main
 - Commit incomplet → git commit --amend
 
 **Prochaine pas** : S4 (MLflow **Tracking**)
+
+---
+
+## Session du 24 octobre 2025
+
+### ✅ S4 — MLflow Tracking
+
+**Artefacts créés** :
+- `services/uhi_service/src/train.py` (intégration MLflow)
+- `docs/screenshots/s4_mlflow_runs.png`
+- Dossier `./mlruns/0/` avec 4 runs
+
+**Commandes clés** :
+```bash
+make train SERVICE=uhi_service  # Runs multiples
+mlflow ui --port 5000           # Interface web
+http://127.0.0.1:5000           # URL fonctionnelle
+```
+
+**ésultats** :
+- **4 runs** enregistrés (2 complets, 2 tests)
+- **Params loggués** : max_depth (10 vs 15), n_estimators (50), test_size (0.2)
+- **Metrics loggués** : mae (~4.74-4.75), r2_score (~0.746-0.749)
+- **Interface MLflow UI** : accessible et fonctionnelle
+
+**Leçons apprises** :
+- Reset MLflow : `rm -rf mlruns` puis `make train` (recréation auto)
+- URL MLflow : utiliser `127.0.0.1` au lieu de `localhost`
+- Runs persistants : MLflow garde tout l'historique
+
+**Prochain pas** : S5 — **Model Registry** (Staging/Prod)
+
+---
+

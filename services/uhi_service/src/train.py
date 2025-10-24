@@ -2,13 +2,17 @@
 Entraînement d'un modèle simple (régression) pour prédire un score UHI.
 Utilise des données synthétiques pour démarrer.
 """
+import os
+import joblib
+
 import numpy as np
 import pandas as pd
+import mlflow
+import mlflow.sklearn
+
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_absolute_error, r2_score
-import joblib
-import os
 
 def generate_synthetic_data(n_samples=1000):
     """Génère des données synthétiques pour UHI (Îlots de chaleur)."""
@@ -49,15 +53,36 @@ def train_model():
         X, y, test_size=0.2, random_state=42
     )
     
-    print("🤖 Entraînement du modèle...")
-    model = RandomForestRegressor(n_estimators=50, random_state=42, max_depth=10)
-    model.fit(X_train, y_train)
+    # Hyperparamètres
+    max_depth = 15
+    n_estimators = 50
+    
+    # ✅ AJOUT MLflow : Démarrer un run
+    with mlflow.start_run():
+        print("🤖 Entraînement du modèle...")
+        
+        # Logger les hyperparamètres
+        mlflow.log_param("max_depth", max_depth)
+        mlflow.log_param("n_estimators", n_estimators)
+        mlflow.log_param("test_size", 0.2)
+        
+        # Entraînement
+        model = RandomForestRegressor(
+            n_estimators=n_estimators,
+            max_depth=max_depth,
+            random_state=42
+        )
+        model.fit(X_train, y_train)
     
     # Évaluation
     y_pred = model.predict(X_test)
     mae = mean_absolute_error(y_test, y_pred)
     r2 = r2_score(y_test, y_pred)
     
+    # Logger les métriques
+    mlflow.log_metric("mae", mae)
+    mlflow.log_metric("r2_score", r2)
+
     print(f"✅ Entraînement terminé !")
     print(f"   MAE : {mae:.2f}")
     print(f"   R² : {r2:.3f}")
@@ -68,6 +93,11 @@ def train_model():
     joblib.dump(model, model_path)
     print(f"💾 Modèle sauvegardé : {model_path}")
     
+    # Logger le modèle dans MLflow
+    mlflow.sklearn.log_model(model, "model")
+
+    print(f"📊 Run MLflow ID : {mlflow.active_run().info.run_id}")
+
     return model
 
 if __name__ == '__main__':
