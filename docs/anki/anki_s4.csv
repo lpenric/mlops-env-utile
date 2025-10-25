@@ -1,0 +1,13 @@
+Front,Back,Tags
+"Commande pour lancer un entraînement avec logging MLflow ?","make train SERVICE=uhi_service (les logs MLflow sont automatiques si mlflow.start_run() est dans train.py)","[S4]::commandes"
+"Commande pour démarrer l'interface web MLflow ?","mlflow ui --port 5000 puis ouvrir http://127.0.0.1:5000","[S4]::commandes"
+"Pourquoi utiliser 127.0.0.1 au lieu de localhost pour MLflow UI ?","Résolution DNS locale parfois défaillante sur Mac. 127.0.0.1 est l'IP directe (loopback) et fonctionne toujours","[S4]::concepts [Mac_M1]"
+"Où MLflow stocke-t-il les runs localement ?","Dans le dossier ./mlruns/0/ à la racine du projet (experiment ID 0 = Default)","[S4]::concepts"
+"Que contient un 'run' MLflow ?","Params (hyperparams), metrics (mae, r2_score), artifacts (modèle pkl), metadata (durée, timestamp, user)","[S4]::concepts"
+"Comment reset proprement MLflow si tout est cassé ?","rm -rf mlruns puis make train (MLflow recrée automatiquement la structure). NE PAS faire rm -rf mlruns/* (casse experiment 0)","[S4]::debugging [Mac_M1]"
+"Code Python minimal pour logger dans MLflow ?","with mlflow.start_run():\n    mlflow.log_param('max_depth', 10)\n    mlflow.log_metric('mae', 4.5)\n    mlflow.sklearn.log_model(model, 'model')","[S4]::commandes"
+"Que signifie le warning 'artifact_path is deprecated' ?","MLflow suggère d'utiliser 'name' au lieu de 'artifact_path' dans log_model(). Cosmétique, pas d'impact fonctionnel. Ignorer pour S4","[S4]::debugging"
+"Comment comparer 2 runs dans MLflow UI ?","Cocher les 2 runs dans la liste, cliquer sur 'Compare' en haut. Affiche graphiques params vs metrics","[S4]::commandes"
+"Erreur 'Could not find experiment with ID 0'. Cause et solution ?","Cause : dossier mlruns/ existe mais vide (structure cassée). Solution : rm -rf mlruns puis make train (recréation auto)","[S4]::debugging"
+"Différence entre Tracking et Registry dans MLflow ?","Tracking = logs des runs (params/metrics/artifacts). Registry = versions nommées du modèle avec états (Staging/Production). Registry vient en S5","[S4]::concepts"
+"Quel fichier modifier pour ajouter MLflow Tracking à l'entraînement ?","services/uhi_service/src/train.py - ajouter imports mlflow et with mlflow.start_run() autour du code d'entraînement","[S4]::concepts"
